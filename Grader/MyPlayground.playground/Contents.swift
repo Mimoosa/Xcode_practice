@@ -75,3 +75,10 @@ if let g2 = g2 {
  print(g2((100.0, 110.0,
 0.0)) ?? "N/A")
 }
+
+
+let testPoints = [40.0, 52.1, 64.1, 76.1, 88.1]
+for p in testPoints{
+    print("Points: ", p, "is the minimum points for Grade: ", arvosana(p) ?? "N/A")
+}
+
