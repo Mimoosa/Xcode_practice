@@ -18,6 +18,14 @@ class SampleData{
         modelContainer.mainContext
     }
     
+    var friend: Friend{
+        Friend.sampleData.first!
+    }
+    
+    var movie: Movie{
+        Movie.sampleData.first!
+    }
+    
     private init() {
         let schema = Schema([
             Friend.self,
@@ -44,5 +52,10 @@ class SampleData{
         for movie in Movie.sampleData {
             context.insert(movie)
         }
+        
+        Friend.sampleData[0].favoriteMovie = Movie.sampleData[1]
+        Friend.sampleData[2].favoriteMovie = Movie.sampleData[0]
+        Friend.sampleData[3].favoriteMovie = Movie.sampleData[4]
+        Friend.sampleData[4].favoriteMovie = Movie.sampleData[0]
     }
 }
