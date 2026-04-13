@@ -6,10 +6,21 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct Parties: View {
+    @Query var members: [ParliamentMemberModel]
+    
+    var parties: [String]{
+        Array(Set(members.map { $0.party.uppercased() })).sorted()
+    }
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        List(parties, id:\.self){ party in
+            Text(party)
+            
+        }
+        
     }
 }
 

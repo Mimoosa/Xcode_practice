@@ -6,15 +6,19 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct ContentView: View {
+    @Environment(\.modelContext) private var modelContext
+    @Query private var members: [ParliamentMemberModel]
+    
     var body: some View {
         NavigationStack {
             VStack(spacing: 48) {
                 Text("Finnish Parliament App")
-                                .font(.largeTitle.bold())
-                                .multilineTextAlignment(.center)
-                                .padding(.top, 40)
+                    .font(.largeTitle.bold())
+                    .multilineTextAlignment(.center)
+                    .padding(.top, 40)
                 
                 Image(systemName: "building.columns")
                     .resizable()
@@ -22,8 +26,8 @@ struct ContentView: View {
                     .frame(width: 120, height: 120)
                     .foregroundColor(.gray)
                     .padding(.bottom, 10)
-
-
+                
+                
                 
                 NavigationLink{
                     Parties()
@@ -40,6 +44,27 @@ struct ContentView: View {
                 }
             }
             .padding()
+        }
+        .task {
+            if members.isEmpty {
+                await loadMembers()
+            }
+        }
+    }
+    
+    @MainActor
+    func loadMembers() async {
+        do {
+            let dtos = try await fetchParliamentMembers()
+            
+            for dto in dtos {
+                let model = ParliamentMemberModel.fromDTO(dto)
+                modelContext.insert(model)
+            }
+            
+            try modelContext.save()
+        } catch {
+            print("Failed to load members:", error)
         }
     }
 }
