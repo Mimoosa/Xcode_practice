@@ -10,7 +10,7 @@ import SwiftData
 
 @Model
 class ParliamentMemberModel {
-    var personNumber: Int
+    @Attribute(.unique) var personNumber: Int
     var seatNumber: Int
     var last: String
     var first: String
@@ -19,6 +19,10 @@ class ParliamentMemberModel {
     var twitter: String?
     var bornYear: Int
     var constituency: String
+    
+    // Relationshp: one member to many assessments
+    @Relationship(deleteRule: .cascade, inverse: \AssessmentModel.member)
+    var assessments: [AssessmentModel] = []
 
     var imgUrl: String {
         "https://users.metropolia.fi/~peterh/edustajakuvat/\(last)-\(first)-web-\(personNumber).jpg"

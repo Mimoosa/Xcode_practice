@@ -13,6 +13,6 @@ struct ParliamentAppApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-        }.modelContainer(for: ParliamentMemberModel.self)
+        }.modelContainer(for: [ParliamentMemberModel.self, AssessmentModel.self])
     }
 }

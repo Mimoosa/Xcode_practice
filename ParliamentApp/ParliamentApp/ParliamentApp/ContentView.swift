@@ -15,7 +15,7 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: 48) {
-                Text("Finnish Parliament App")
+                Text("Finnish Parliament")
                     .font(.largeTitle.bold())
                     .multilineTextAlignment(.center)
                     .padding(.top, 40)

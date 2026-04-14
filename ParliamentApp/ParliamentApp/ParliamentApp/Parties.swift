@@ -12,16 +12,19 @@ struct Parties: View {
     @Query var members: [ParliamentMemberModel]
     
     var parties: [String]{
-        Array(Set(members.map { $0.party.uppercased() })).sorted()
+        Array(Set(members.map { $0.party })).sorted()
     }
     
     var body: some View {
-        List(parties, id:\.self){ party in
-            Text(party)
-            
+            List(parties, id: \.self) { party in
+                NavigationLink {
+                    PartyMembers(party: party)
+                } label: {
+                    Text(party.uppercased())
+                }
+            }
+            .navigationTitle("Parties")
         }
-        
-    }
 }
 
 #Preview {
