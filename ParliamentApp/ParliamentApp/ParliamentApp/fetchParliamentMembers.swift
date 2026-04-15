@@ -3,6 +3,7 @@
 //  ParliamentApp
 //
 //  Created by Monami Kirjavainen on 13.4.2026.
+//  Student number: 2400479
 //
 
 import Foundation
@@ -11,7 +12,9 @@ enum NetworkError: Error {
     case invalidURL
     case invalidResponse
 }
-
+// Fetches the list of parliament members from the remote JSON endpoint.
+// The function decodes the returned JSON into an array of ParliamentMemberStruct.
+// Uses JSONDecoder to convert the downloaded JSON data into Swift model objects.
 func fetchParliamentMembers() async throws -> [ParliamentMemberStruct] {
     guard let url = URL(string: "https://users.metropolia.fi/~peterh/mps.json") else {
         throw NetworkError.invalidURL

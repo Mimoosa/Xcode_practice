@@ -3,6 +3,7 @@
 //  ParliamentApp
 //
 //  Created by Monami Kirjavainen on 13.4.2026.
+//  Student number: 2400479
 //
 
 import Foundation
@@ -23,6 +24,15 @@ class ParliamentMemberModel {
     // Relationshp: one member to many assessments
     @Relationship(deleteRule: .cascade, inverse: \AssessmentModel.member)
     var assessments: [AssessmentModel] = []
+    
+    // A stored "change marker" used to force SwiftData to refresh this member when assessments change.
+    var version: Int = 0
+    
+    // Total score based on all assessment indicators for this member.
+    var totalScore: Int {
+        assessments.reduce(0) { $0 + $1.indicator }
+    }
+
 
     var imgUrl: String {
         "https://users.metropolia.fi/~peterh/edustajakuvat/\(last)-\(first)-web-\(personNumber).jpg"

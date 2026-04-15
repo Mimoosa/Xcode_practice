@@ -3,6 +3,7 @@
 //  ParliamentApp
 //
 //  Created by Monami Kirjavainen on 13.4.2026.
+//  Student number: 2400479
 //
 
 import SwiftUI
@@ -16,23 +17,6 @@ struct MemberDetails: View {
     @State private var indicator: Int = 0
     
     let personNumber: Int
-    
-    let party: String
-    
-    init(personNumber: Int, party: String) {
-            self.personNumber = personNumber
-            self.party = party
-
-            // Dynamic query for assessments
-            self._assessments = Query(
-                filter: #Predicate { $0.member.personNumber == personNumber }
-            )
-
-            // Dynamic query for members
-            self._members = Query(
-                filter: #Predicate { $0.personNumber == personNumber }
-            )
-        }
     
     var member: ParliamentMemberModel? {
         members.first{ $0.personNumber == personNumber }
@@ -91,6 +75,11 @@ struct MemberDetails: View {
                             .foregroundColor(.gray)
                             .padding(.top, 8)
                         
+                        Text("Party: \(member.party)")
+                            .font(.title3)
+                            .foregroundColor(.gray)
+                            .padding(.top, 8)
+                        
                         Text("Constituency: \(member.constituency)")
                             .font(.title3)
                             .foregroundColor(.gray)
@@ -127,7 +116,8 @@ struct MemberDetails: View {
                             Spacer()
 
                             Button {
-                                onClick(+1)
+                                // Set indicator to +1 when user taps the thumbs-up button
+                                indicator = +1
                             } label: {
                                 Image(systemName: "hand.thumbsup.fill")
                                     .foregroundColor(indicator == 1 ? .green : .gray)
@@ -135,7 +125,8 @@ struct MemberDetails: View {
                             }
 
                             Button {
-                                onClick(-1)
+                                // Set indicator to -1 when user taps the thumbs-down button
+                                indicator = -1
                             } label: {
                                 Image(systemName: "hand.thumbsdown.fill")
                                     .foregroundColor(indicator == -1 ? .red : .gray)
@@ -151,6 +142,13 @@ struct MemberDetails: View {
                                     comment: assessmentNote
                                 )
                                 modelContext.insert(newAssessment)
+                                
+                                // Bump the member's version to force SwiftData to treat this member as updated.
+                                // Without this, adding an assessment won't trigger a refresh in views that query members.
+                                member.version += 1
+
+                                // Save changes
+                                try? modelContext.save()
 
                                 // Reset UI state
                                 assessmentNote = ""
@@ -164,7 +162,9 @@ struct MemberDetails: View {
                                 .cornerRadius(8)
                                 .foregroundColor(.white)
                         }
-                        ForEach(assessments.sorted(by: {$0.timestamp > $1.timestamp})){ assessment in
+                        
+                        // List all assessments for this member, sorted by newest first.
+                        ForEach(member.assessments.sorted(by: {$0.timestamp > $1.timestamp})){ assessment in
                             AssessmentRow(assessment: assessment)
                         }
                         
@@ -177,16 +177,12 @@ struct MemberDetails: View {
                     .font(.title2)
             }
         }
-        .navigationTitle("Member Details (\(party.uppercased()))")
+        .navigationTitle("Member Details")
         .navigationBarTitleDisplayMode(.inline)
     }
-    
-    func onClick(_ value: Int) {
-            indicator = value
-        }
 }
 
 
 #Preview {
-    MemberDetails(personNumber: 123, party: "sok")
+    MemberDetails(personNumber: 123)
 }

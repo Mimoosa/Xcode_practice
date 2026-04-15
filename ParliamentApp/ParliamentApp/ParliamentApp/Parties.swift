@@ -3,6 +3,7 @@
 //  ParliamentApp
 //
 //  Created by Monami Kirjavainen on 13.4.2026.
+//  Student number: 2400479
 //
 
 import SwiftUI
@@ -16,6 +17,12 @@ struct Parties: View {
     }
     
     var body: some View {
+        VStack(alignment: .leading) {
+            Text("Parties")
+                .font(.title2)
+                .bold()
+                .padding(.horizontal)
+
             List(parties, id: \.self) { party in
                 NavigationLink {
                     PartyMembers(party: party)
@@ -23,8 +30,9 @@ struct Parties: View {
                     Text(party.uppercased())
                 }
             }
-            .navigationTitle("Parties")
         }
+    }
+
 }
 
 #Preview {

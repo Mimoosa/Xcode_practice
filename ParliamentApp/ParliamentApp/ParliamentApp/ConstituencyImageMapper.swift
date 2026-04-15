@@ -3,10 +3,12 @@
 //  ParliamentApp
 //
 //  Created by Monami Kirjavainen on 15.4.2026.
+//  Student number: 2400479
 //
 
 import Foundation
 
+// Returns the correct asset image name for a given constituency.
 func imageName(for constituency: String) -> String {
     switch constituency {
     case "Helsinki": return "helsinki"

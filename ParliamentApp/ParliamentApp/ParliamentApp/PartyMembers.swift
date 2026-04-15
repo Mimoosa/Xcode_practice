@@ -3,6 +3,7 @@
 //  ParliamentApp
 //
 //  Created by Monami Kirjavainen on 13.4.2026.
+//  Student number: 2400479
 //
 
 import SwiftUI
@@ -23,12 +24,13 @@ struct PartyMembers: View {
     var body: some View {
         List(partyMembers, id: \.personNumber) { member in
             NavigationLink {
-                MemberDetails(personNumber: member.personNumber, party: party)
+                MemberDetails(personNumber: member.personNumber)
             } label: {
                 Text("\(member.first) \(member.last)")
             }
         }
         .navigationTitle("Party Members: \(party.uppercased())")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 

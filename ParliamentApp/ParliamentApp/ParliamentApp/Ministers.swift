@@ -1,5 +1,5 @@
 //
-//  Constituencies.swift
+//  Ministers.swift
 //  ParliamentApp
 //
 //  Created by Monami Kirjavainen on 15.4.2026.
@@ -9,24 +9,27 @@
 import SwiftUI
 import SwiftData
 
-struct Constituencies: View {
+struct Ministers: View {
     @Query var members: [ParliamentMemberModel]
-    
-    var constituencies: [String]{
-        Array(Set(members.map { $0.constituency })).sorted()
+
+    var ministerMembers: [ParliamentMemberModel] {
+        members.filter { $0.minister == true }
     }
+
+    
+    
     var body: some View {
         VStack(alignment: .leading) {
-            Text("Constituencies")
+            Text("Ministers")
                 .font(.title2)
                 .bold()
                 .padding(.horizontal)
-
-            List(constituencies, id: \.self) { constituency in
+            
+            List(ministerMembers, id: \.personNumber) { member in
                 NavigationLink {
-                    ConstituencyDetails(constituency: constituency)
+                    MemberDetails(personNumber: member.personNumber)
                 } label: {
-                    Text(constituency)
+                    Text("\(member.first) \(member.last)")
                 }
             }
         }
@@ -35,5 +38,5 @@ struct Constituencies: View {
 }
 
 #Preview {
-    Constituencies()
+    Ministers()
 }
