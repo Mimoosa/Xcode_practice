@@ -30,7 +30,7 @@ struct ContentView: View {
                 
                 
                 NavigationLink{
-                    Parties()
+                    MainTabView()
                     
                 } label:{
                     Text("Start App")
