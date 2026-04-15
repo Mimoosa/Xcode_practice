@@ -5,3 +5,6 @@ Each screenshot represents the finished UI of an app I built based on what I lea
 
 ## Number Guessing Game
 ![Number Guessing Screenshot](https://github.com/user-attachments/assets/3478d103-86c6-4206-b2f6-3541b3def9e0)
+
+## Demo Video for Finnish Parliament App
+[Watch the demo on YouTube](https://youtu.be/ce32m4uno-o)
